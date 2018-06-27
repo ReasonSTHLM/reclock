@@ -2,6 +2,7 @@
   "name": "reclock",
   "version": "0.1.0",
   "scripts": {
+    "backend": "node src/service/Service.bs.js",
     "build": "bsb -make-world",
     "start": "bsb -make-world -w",
     "clean": "bsb -clean-world",
