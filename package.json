@@ -21,6 +21,8 @@
     "node-static": "^0.7.10",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
-    "reason-react": "^0.4.2"
+    "reason-react": "^0.4.2",
+    "webpack": "^4.12.2",
+    "webpack-cli": "^3.0.8"
   }
 }
