@@ -1,4 +1,5 @@
 .DS_Store
+yarn-error.log
 .merlin
 .bsb.lock
 npm-debug.log

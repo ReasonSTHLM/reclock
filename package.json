@@ -7,6 +7,7 @@
     "start": "bsb -make-world -w",
     "clean": "bsb -clean-world",
     "test": "echo \"Error: no test specified\" && exit 1",
+    "webserver": "static .",
     "webpack": "webpack -w",
     "webpack:production": "NODE_ENV=production webpack"
   },
@@ -16,13 +17,10 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "bs-platform": "^3.1.5",
+    "node-static": "^0.7.10",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
-    "reason-react": ">=0.4.0"
-  },
-  "devDependencies": {
-    "bs-platform": "^3.1.5",
-    "webpack": "^4.0.1",
-    "webpack-cli": "^2.0.10"
+    "reason-react": "^0.4.2"
   }
 }
