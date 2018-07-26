@@ -13,3 +13,7 @@
 
     using the frontend: http://localhost:8080/src/client/
  */
+
+type app;
+
+[@bs.module "express"] external express : unit => app = "express";
