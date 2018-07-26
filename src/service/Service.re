@@ -14,6 +14,13 @@
     using the frontend: http://localhost:8080/src/client/
  */
 
-type app;
+type request;
+type response;
+type handler = (request, response) => unit;
+type server;
 
-[@bs.module "express"] external express : unit => app = "express";
+[@bs.module "http"] external createServer : handler => server = "";
+
+[@bs.send] external listen : (server, int, string => unit) => unit = "";
+
+createServer((req, res) => ()) |. listen(2112, Js.log);
