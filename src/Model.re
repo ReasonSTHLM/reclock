@@ -1,48 +1,65 @@
-type locale =
-  | DE
-  | ES
-  | EN;
+type language =
+  | En
+  | De
+  | Es;
 
-type t = {
-  time: float,
-  locale: locale,
+[@bs.deriving abstract]
+type jsT = {
+  time: int,
+  lang: string,
 };
 
-let locale_to_string =
+type t = {
+  time: int,
+  lang: language,
+};
+
+let language_to_str = (lang: language) : string =>
+  switch (lang) {
+  | En => "En"
+  | Es => "Es"
+  | De => "De"
+  };
+
+let language_of_str =
   fun
-  | DE => "DE"
-  | ES => "ES"
-  | EN => "EN";
+  | "DE" => De
+  | "ES" => Es
+  | _ => En;
 
-let locale_of_string =
-  fun
-  | "DE" => DE
-  | "ES" => ES
-  | _ => EN;
+let t_to_jsT = (t: t) : jsT =>
+  jsT(~time=t.time, ~lang=language_to_str(t.lang));
 
+let jsT_to_t = (jsT: jsT) : t => {
+  time: time(jsT),
+  lang: language_of_str(lang(jsT)),
+};
+
+/*
+ let foo: t = {time: 1, lang: En};
+
+ let bar: jsT = t_to_jsT(foo);
+
+ Js.log(bar); */
 [@bs.scope "JSON"] [@bs.val]
-external __unsafe_stringify : 't => string = "stringify"
+external __unsafe_stringify : 't => string = "stringify";
 
-[@bs.scope "JSON"] [@bs.val]
-external __unsafe_parse : string => 't = "parse"
+[@bs.scope "JSON"] [@bs.val] external __unsafe_parse : string => 't = "parse";
 
 module Json = {
-  let stringify = __unsafe_stringify;
-  let parse = __unsafe_parse;
-}
+  let stringify = (t: t) : string => __unsafe_stringify(t_to_jsT(t));
+  let parse = (s: string) : t => jsT_to_t(__unsafe_parse(s));
+};
 
 module Payload = {
   [@bs.deriving abstract]
   type payload = {
-    time: float,
-    locale: string,
+    time: int,
+    lang: string,
   };
-  let from_t = t => payload(
-    ~time= t.time,
-    ~locale= locale_to_string(t.locale),
-  );
+  let from_t = t => payload(~time=t.time, ~lang=language_to_str(t.lang));
   let to_t = payload => {
     time: time(payload),
-    locale: locale_of_string @@ locale @@ payload,
+    lang: language_of_str @@ lang @@ payload,
   };
-}
+};

@@ -1,6 +1,6 @@
-let payload: Model.t = {time: 1.0, locale: Model.EN};
+let payload: Model.t = {time: 1, lang: Model.En};
 
-payload |. Model.Payload.from_t |. Model.Json.stringify |> Js.log;
+payload |. Model.Json.stringify |> Js.log;
 
 ReactDOMRe.renderToElementWithId(<Component1 message="Hello!" />, "index1");
 
