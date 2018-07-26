@@ -1,46 +1,18 @@
-type state = {response: option(string)};
+/*
+  CODE FOR FRONTEND GOES HERE.
 
-type action =
-  | FetchedResponse(string);
+  Assignment:
+  Create a react component which queries the backend on http://localhost:2112
+  and displays the response in the form: "Today is the {date}".
+  The language should depend on the lang parameter sent in the response.
 
-let component = ReasonReact.reducerComponent("Page");
+  En: "Today is the {data}"
+  De: "Heute ist der {date}"
+  Es: "Hoy es el {date}"
 
-type response;
+  After building and starting the backend and webserver, you can see your
+  frontend on http://localhost:8080/src/client/
+ */
+let component = ReasonReact.statelessComponent("App");
 
-[@bs.val] external fetch : string => Js.Promise.t(response) = "fetch";
-
-[@bs.send] external text : response => Js.Promise.t(string) = "text";
-
-let make = (~message, _children) => {
-  ...component,
-  initialState: () => {response: None},
-  reducer: (action, state) =>
-    switch (action) {
-    | FetchedResponse(r) => ReasonReact.Update({response: Some(r)})
-    },
-  didMount: self => {
-    let handleLoadedModel = m => self.send(FetchedResponse(m));
-    fetch("http://localhost:2112")
-    |> Js.Promise.then_(response => {
-         Js.log(response);
-         text(response);
-       })
-    |> Js.Promise.then_(string => {
-         Js.log(string);
-         self.send(FetchedResponse(string));
-         Js.Promise.resolve();
-       })
-    |> ignore;
-  },
-  render: self => {
-    let response =
-      switch (self.state.response) {
-      | Some(response) => response
-      | None => "loading..."
-      };
-    <div>
-      <h1> (ReasonReact.string(message)) </h1>
-      <div> (ReasonReact.string(response)) </div>
-    </div>;
-  },
-};
+let make = _children => {...component, render: _self => <div />};
