@@ -1,32 +1,15 @@
-type server;
+/*
+  Code for backend goes here.
 
-type http;
+  Assignment: Create an HTTP server running on port 2112 which
+  responds with the JSON representation of our Model.t with:
+    time: the timestamp of the current time,
+    lang: a language of your choice (some ideas: hardcode it / randomise / determined from headers...)
 
-type req;
+  You can test if your server works by:
+    curl localhost:2112
 
-type res;
+    or
 
-[@bs.send] external write : (res, string) => unit = "write";
-
-[@bs.send] external end_ : res => unit = "end";
-
-[@bs.send] external setHeader : (res, string, string) => unit = "setHeader";
-
-type handler = (req, res) => unit;
-
-[@bs.module "http"] external createServer : handler => server = "createServer";
-
-[@bs.send] external listen : (server, int, string => unit) => unit = "listen";
-
-let payload: Model.t = {time: 1, lang: Model.En};
-
-let handler = (_req, res) => {
-  Js.log("Sending you stuff...");
-  res |. setHeader("Access-Control-Allow-Origin", "*");
-  payload |. Model.Json.stringify |> write(res);
-  res |. end_;
-  Js.log("Done! Yes!");
-  ();
-};
-
-createServer(handler) |. listen(2112, _error => Js.log("Running..."));
+    using the frontend: http://localhost:8080/src/client/
+ */
